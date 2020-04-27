@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Client", "Sample.Cli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Mvc", "Sample.Mvc\Sample.Mvc.csproj", "{93DD7302-B7D5-4C0A-A776-F914EE6B08C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ApiGateway", "Sample.ApiGateway\Sample.ApiGateway.csproj", "{53050988-19AA-4BF4-A895-7E6D3CE28E48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{93DD7302-B7D5-4C0A-A776-F914EE6B08C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93DD7302-B7D5-4C0A-A776-F914EE6B08C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93DD7302-B7D5-4C0A-A776-F914EE6B08C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53050988-19AA-4BF4-A895-7E6D3CE28E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53050988-19AA-4BF4-A895-7E6D3CE28E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53050988-19AA-4BF4-A895-7E6D3CE28E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53050988-19AA-4BF4-A895-7E6D3CE28E48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
