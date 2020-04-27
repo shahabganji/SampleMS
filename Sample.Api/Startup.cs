@@ -1,17 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Consul;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Sample.Api.Authorization;
+using Sample.Api.Configuration;
+using Sample.Api.Extensions;
+using IApplicationLifetime = Microsoft.Extensions.Hosting.IApplicationLifetime;
+
+// using IApplicationLifetime = Microsoft.AspNetCore.Hosting.IApplicationLifetime;
 
 namespace Sample.Api
 {
@@ -31,6 +31,19 @@ namespace Sample.Api
 
             services.AddHttpContextAccessor();
             
+            AddAuthorization(services);
+
+            services.Configure<ConsulConfig>(Configuration.GetSection("Consul:Config"));
+            services.AddSingleton<IConsulClient, ConsulClient>(p =>
+                new ConsulClient(consulConfig =>
+                {
+                    var address = this.Configuration["Consul:Address"];
+                    consulConfig.Address = new Uri(address );
+                }));
+        }
+
+        private static void AddAuthorization(IServiceCollection services)
+        {
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
@@ -44,12 +57,12 @@ namespace Sample.Api
                 auth.AddPolicy(nameof(MustSayHelloHeaderRequirement),
                     policy => policy.AddRequirements(new MustSayHelloHeaderRequirement()));
             });
-            services.AddScoped<IAuthorizationHandler,MustSayHelloHeaderAuthorizationHandler>();
-
+            services.AddScoped<IAuthorizationHandler, MustSayHelloHeaderAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            IApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {
@@ -63,7 +76,12 @@ namespace Sample.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            app.RegisterWithConsul(lifetime);
         }
     }
 }
