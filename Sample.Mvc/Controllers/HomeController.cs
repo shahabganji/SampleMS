@@ -47,6 +47,7 @@ namespace Sample.Mvc.Controllers
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            client.DefaultRequestHeaders.Add("Greet", "hi");
             var content = await client.GetStringAsync("https://localhost:6001/WeatherForecast");
 
             return  JArray.Parse(content).ToString();

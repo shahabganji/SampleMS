@@ -43,6 +43,8 @@ namespace Sample.Mvc
                     options.ClientSecret = "secret";
                     options.ResponseType = "code";
 
+                    // options.SignedOutRedirectUri = "https://localhost:6002/signout-callback-oidc";
+
                     options.SaveTokens = true;
                     
                     options.Scope.Add("Api1"); // to be allowed to call Api1
