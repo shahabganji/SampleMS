@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sample.Api.Authorization;
 
 namespace Sample.Api
 {
@@ -27,6 +29,8 @@ namespace Sample.Api
         {
             services.AddControllers();
 
+            services.AddHttpContextAccessor();
+            
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
@@ -34,6 +38,13 @@ namespace Sample.Api
                     options.RequireHttpsMetadata = true;
                     options.Audience = "Api1";
                 });
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy(nameof(MustSayHelloHeaderRequirement),
+                    policy => policy.AddRequirements(new MustSayHelloHeaderRequirement()));
+            });
+            services.AddScoped<IAuthorizationHandler,MustSayHelloHeaderAuthorizationHandler>();
 
         }
 

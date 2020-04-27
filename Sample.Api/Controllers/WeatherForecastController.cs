@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Sample.Api.Authorization;
 
 namespace Sample.Api.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = nameof(MustSayHelloHeaderRequirement))]
     [ApiController]
     [Route("[controller]")]
     

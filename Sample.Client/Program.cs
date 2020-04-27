@@ -20,6 +20,7 @@ namespace Sample.Client
             if(tokenResponse.IsError) return;
 
             client.SetBearerToken(tokenResponse.AccessToken);
+            client.DefaultRequestHeaders.Add("Greet" , "hi");
             var weatherResponseMessage = await client.GetAsync("https://localhost:6001/weatherforecast");
 
             if (weatherResponseMessage.IsSuccessStatusCode)
