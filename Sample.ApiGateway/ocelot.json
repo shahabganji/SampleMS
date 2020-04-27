@@ -6,7 +6,7 @@
       "ServiceDiscoveryProvider": {
         "Scheme": "http",
         "Host": "localhost",
-        "Port": 8300,
+        "Port": 8500,
         "Type": "Consul"
       },
       "ServiceName": "api",
