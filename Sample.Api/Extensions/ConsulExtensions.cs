@@ -16,7 +16,7 @@ namespace Sample.Api.Extensions
     {
         public static IApplicationBuilder RegisterWithConsul(
             this IApplicationBuilder app,
-            IApplicationLifetime lifetime)
+            IHostApplicationLifetime lifetime)
         {
             if (lifetime == null) throw new ArgumentNullException(nameof(lifetime));
             
@@ -47,9 +47,11 @@ namespace Sample.Api.Extensions
             };
 
             logger.LogInformation("Registering with Consul");
+            
             consulClient.Agent.ServiceDeregister(registration.ID).Wait();
             consulClient.Agent.ServiceRegister(registration).Wait();
 
+            // handle deregistration of the service upon application shutdown, graceful shutdown not killing
             lifetime.ApplicationStopping.Register(() => {
                 logger.LogInformation("Deregistering from Consul");
                 consulClient.Agent.ServiceDeregister(registration.ID).Wait(); 

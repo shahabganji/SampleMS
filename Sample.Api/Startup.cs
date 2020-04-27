@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Sample.Api.Authorization;
 using Sample.Api.Configuration;
 using Sample.Api.Extensions;
-using IApplicationLifetime = Microsoft.Extensions.Hosting.IApplicationLifetime;
 
 // using IApplicationLifetime = Microsoft.AspNetCore.Hosting.IApplicationLifetime;
 
@@ -62,7 +61,7 @@ namespace Sample.Api
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
-            IApplicationLifetime lifetime)
+            IHostApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {
